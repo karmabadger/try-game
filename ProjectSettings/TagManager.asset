@@ -10,6 +10,8 @@ TagManager:
   - ProjectileText
   - GameStateText
   - CanyonTrigger
+  - GameManager
+  - bullet
   layers:
   - Default
   - TransparentFX

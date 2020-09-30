@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/canyon.unity
+    path: Assets/ass1/Scenes/canyon.unity
     guid: 4fdbc9c69ba59ba49bc763c783defdf9
   m_configObjects: {}

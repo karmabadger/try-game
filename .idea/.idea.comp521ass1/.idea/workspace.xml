@@ -26,10 +26,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a7b496a-9759-4511-b739-403a52b4de5a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/TerrainAssets/SurfaceTextures/Materials/MudRockyNormals.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/TerrainAssets/SurfaceTextures/Materials/MudRockyNormals.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterBump.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterBump.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterFresnel.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterFresnel.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterProDaytimeGradient.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterProDaytimeGradient.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterProNighttimeGradient.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Standard Assets/Environment/Water/Water/Materials/WaterProNighttimeGradient.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Prefabs/Block&amp;Projectile.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Prefabs/Block&amp;Projectile.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Prefabs/Projectile Collectible.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Prefabs/Projectile Collectible.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Prefabs/Projectile.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Prefabs/Projectile.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Scenes/canyon.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/ass1/Scenes/canyon.unity.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.comp521ass1/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.comp521ass1/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.comp521ass1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.comp521ass1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Terrain/Terrain_0_0_39adc3e9-d5dd-4b48-bacf-8dc65a1c4791.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Terrain/Terrain_0_0_39adc3e9-d5dd-4b48-bacf-8dc65a1c4791.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ass1/Prefabs/block.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ass1/Prefabs/block.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/canyon.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/canyon.unity.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +66,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@2.1.1/Scripts/Runtime/TMP_PackageResourceImporter.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/ass1/Scripts/Classes/Node.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ass1/Scripts/Classes/MazeNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Standard Assets/Utility/SimpleActivatorMenu.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Standard Assets/Characters/ThirdPersonCharacter/Scripts/ThirdPersonUserControl.cs" root0="FORCE_HIGHLIGHTING" />
@@ -55,14 +79,17 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Standard Assets/Utility/SimpleActivatorMenu.cs" />
         <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Collectible.cs" />
-        <option value="$PROJECT_DIR$/Assets/Player.cs" />
         <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Classes/Node.cs" />
+        <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Classes/MazeNode.cs" />
         <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Player.cs" />
       </list>
     </option>
   </component>
   <component name="ProjectId" id="1iCicyEzcSbCntswTcBP5GXqXD2" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -111,7 +138,7 @@
       <workItem from="1601418067437" duration="759000" />
       <workItem from="1601420458450" duration="841000" />
       <workItem from="1601427004192" duration="6963000" />
-      <workItem from="1601482665314" duration="1807000" />
+      <workItem from="1601482665314" duration="18056000" />
     </task>
     <servers />
   </component>
@@ -133,10 +160,32 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="2269" y="466" key="RiderGenerateDialog" timestamp="1601484313381">
+    <state x="2269" y="466" key="RiderGenerateDialog" timestamp="1601488001883">
       <screen x="1920" y="364" width="1280" height="994" />
     </state>
-    <state x="2269" y="466" key="RiderGenerateDialog/0.0.1536.834/1920.364.1280.994@1920.364.1280.994" timestamp="1601484313381" />
+    <state x="2269" y="466" key="RiderGenerateDialog/0.0.1536.834/1920.364.1280.994@1920.364.1280.994" timestamp="1601488001883" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs</url>
+          <line>168</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" initialLine="73">
+            <startOffsets>
+              <option value="4144" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4154" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
