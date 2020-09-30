@@ -10,6 +10,9 @@
       <e p="Assets" t="Include">
         <e p="ass1" t="Include">
           <e p="Scripts" t="Include">
+            <e p="Classes" t="Include">
+              <e p="Node.cs" t="Include" />
+            </e>
             <e p="Collectible.cs" t="Include" />
             <e p="Gamemanager" t="Include">
               <e p="Gamemanager.cs" t="Include" />
