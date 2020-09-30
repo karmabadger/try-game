@@ -9,6 +9,7 @@ TagManager:
   - MainCanvas
   - ProjectileText
   - GameStateText
+  - CanyonTrigger
   layers:
   - Default
   - TransparentFX

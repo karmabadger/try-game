@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     
     private int m_NbProjectiles = 0;
 
+    private Gamemanager m_Gamemanager;
+
     public int GetNbProjectiles()
     {
         return m_NbProjectiles;
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_Gamemanager = GameObject.
     }
 
     // Update is called once per frame
@@ -31,6 +33,11 @@ public class Player : MonoBehaviour
         {
             m_NbProjectiles++;
             Destroy(other.gameObject); // Or whatever way you want to remove the coin.
+        }
+
+        if (other.CompareTag("CanyonTrigger"))
+        {
+            
         }
     }
 }
