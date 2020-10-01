@@ -33,6 +33,7 @@
           </e>
           <e p="Readme.txt" t="Include" />
         </e>
+        <e p="Platform.cs" t="Include" />
         <e p="Player.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="GitHub" t="Include">

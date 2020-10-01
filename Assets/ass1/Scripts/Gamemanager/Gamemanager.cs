@@ -150,11 +150,11 @@ public class Gamemanager : MonoBehaviour
             i++;
         }
 
-        Debug.Log("yoyyoyoyo");
-        Debug.Log(curX);
-        Debug.Log(curY);
-        Debug.Log(XLeft);
-        Debug.Log(YLeft);
+        // Debug.Log("yoyyoyoyo");
+        // Debug.Log(curX);
+        // Debug.Log(curY);
+        // Debug.Log(XLeft);
+        // Debug.Log(YLeft);
         
         
         

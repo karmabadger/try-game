@@ -12,6 +12,7 @@ TagManager:
   - CanyonTrigger
   - GameManager
   - bullet
+  - Platform
   layers:
   - Default
   - TransparentFX

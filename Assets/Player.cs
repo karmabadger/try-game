@@ -4,26 +4,25 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    
     private int m_NbProjectiles = 0;
 
     private Gamemanager m_Gamemanager;
 
 
     public GameObject projectilePrefab;
-    
-    
+
+
     public int GetNbProjectiles()
     {
         return m_NbProjectiles;
     }
-    
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
+        // projectilePrefab = Resources.Load("Projectile") as GameObject;
         m_Gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Gamemanager>();
-        
     }
 
     // Update is called once per frame
@@ -31,16 +30,26 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Shoot();
-            
+            if (m_NbProjectiles > 0)
+            {
+                Shoot();
+            }
         }
     }
 
     private void Shoot()
     {
-        GameObject projectile = Instantiate(projectilePrefab, gameObject.GetComponent<Transform>());
-        projectile.GetComponent<Rigidbody>().velocity = Vector3.forward;
-        
+        Vector3 vector = gameObject.GetComponent<Transform>().position;
+        var forward = Camera.main.transform.forward;
+        GameObject projectile = Instantiate(projectilePrefab, vector + forward * 2, Quaternion.identity);
+        projectile.GetComponent<Rigidbody>().velocity = forward * 40;
+
+        // projectile.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 1));
+
+        Debug.Log(projectile.GetComponent<Rigidbody>().velocity);
+
+        m_NbProjectiles--;
+        m_Gamemanager.UpdateProjectilesText(m_NbProjectiles);
     }
 
     void OnTriggerEnter(Collider other)
@@ -49,12 +58,11 @@ public class Player : MonoBehaviour
         {
             m_NbProjectiles++;
             m_Gamemanager.UpdateProjectilesText(m_NbProjectiles);
-            Destroy(other.gameObject); // Or whatever way you want to remove the coin.
+            Destroy(other.gameObject);
         }
 
         if (other.CompareTag("CanyonTrigger"))
         {
-            
         }
     }
 }
