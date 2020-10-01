@@ -26,8 +26,10 @@ public class Gamemanager : MonoBehaviour
     public GameObject ProjectilePrefab;
     public GameObject BlockandProjectilePrefab;
 
+    public GameObject PlatformPrefab;
 
-    // private ArrayList stack;
+
+    private List<MazeNode> mazeStack;
 
 
     public void UpdateProjectilesText(int nb_Projectiles)
@@ -201,27 +203,50 @@ public class Gamemanager : MonoBehaviour
 
 
         int nextstep = Random.Range(1, 5);
-        while (stack[stack.Count - 1].XPos1 != 4)
+
+        MazeNode current = Maze[0, 0];
+        while (current.XPos1 != 4)
         {
             if (i > 500)
             {
                 break;
             }
 
-            stack[stack.Count - 1].IsUsed = true;
+            current.IsUsed = true;
 
-            List<MazeNode> unusedNeighbors = GetUnusedNeighbors(stack[stack.Count - 1]);
+            List<MazeNode> unusedNeighbors = GetUnusedNeighbors(current);
+
+            Debug.Log(unusedNeighbors.Count);
 
             if (unusedNeighbors.Count > 0)
             {
                 nextstep = Random.Range(0, unusedNeighbors.Count);
+                stack.Add(unusedNeighbors[nextstep]);
             }
-            stack.Add(unusedNeighbors[nextstep]);
+            else
+            {
+                stack.RemoveAt(stack.Count - 1);
+            }
+
+            if (unusedNeighbors.Count == 4)
+            {
+                Debug.Log("Current:" + current.XPos1 + "," + current.YPos1);
+                foreach (var mazeNode in unusedNeighbors)
+                {
+                    Debug.Log("nei:" + mazeNode.XPos1 + "," + mazeNode.YPos1);
+                }
+                Debug.Log("Choice:" + unusedNeighbors[nextstep].XPos1 + "," + unusedNeighbors[nextstep].YPos1);
+            }
+
             i++;
+
+            current = stack[stack.Count - 1];
         }
 
+        Debug.Log("Stack is: ");
         foreach (var mazeNode in stack)
         {
+            Debug.Log("stackel:" + mazeNode.XPos1 + "," + mazeNode.YPos1);
             SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
         }
     }
@@ -238,14 +263,16 @@ public class Gamemanager : MonoBehaviour
         {
             unusedNeighbors.Add(Maze[mazeNode.XPos1 - 1, mazeNode.YPos1]);
         }
-        
+
         if (mazeNode.YPos1 < 4 && !Maze[mazeNode.XPos1, mazeNode.YPos1 + 1].IsUsed)
         {
             unusedNeighbors.Add(Maze[mazeNode.XPos1 + 1, mazeNode.YPos1 + 1]);
         }
-        
+
         if (mazeNode.YPos1 > 0 && !Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed)
         {
+            Debug.Log("down: " + Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed);
+            // Debug.Log();
             unusedNeighbors.Add(Maze[mazeNode.XPos1, mazeNode.YPos1 - 1]);
         }
 
@@ -326,7 +353,7 @@ public class Gamemanager : MonoBehaviour
 
     public void SpawnBlock2(float x, float y)
     {
-        Spawn(BlockPrefab, x * 20 - 40, 2, y * 20 + 2);
+        Spawn(PlatformPrefab, x * 20 - 40, 2, y * 20 + 2);
     }
 
 
@@ -367,7 +394,6 @@ public class Gamemanager : MonoBehaviour
         GenerateUniMaze();
 
         GenerateMaze();
-        
     }
 
     // Start is called before the first frame update
