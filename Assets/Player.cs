@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("CanyonTrigger"))
         {
+            m_Gamemanager.Gameover();
         }
     }
 }

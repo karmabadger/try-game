@@ -27,7 +27,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0a7b496a-9759-4511-b739-403a52b4de5a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.comp521ass1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.comp521ass1/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ass1/Scenes/canyon.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ass1/Scenes/canyon.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,9 +57,9 @@
         <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Collectible.cs" />
         <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Classes/Node.cs" />
         <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Classes/MazeNode.cs" />
-        <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Player.cs" />
         <option value="$PROJECT_DIR$/Assets/Platform.cs" />
+        <option value="$PROJECT_DIR$/Assets/Player.cs" />
+        <option value="$PROJECT_DIR$/Assets/ass1/Scripts/Gamemanager/Gamemanager.cs" />
       </list>
     </option>
   </component>
@@ -114,7 +115,7 @@
       <workItem from="1601418067437" duration="759000" />
       <workItem from="1601420458450" duration="841000" />
       <workItem from="1601427004192" duration="6963000" />
-      <workItem from="1601482665314" duration="21103000" />
+      <workItem from="1601482665314" duration="21517000" />
     </task>
     <servers />
   </component>

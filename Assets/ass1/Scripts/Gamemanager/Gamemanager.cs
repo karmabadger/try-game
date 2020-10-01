@@ -280,4 +280,11 @@ public class Gamemanager : MonoBehaviour
     {
         
     }
+
+    public void Gameover()
+    {
+        gameStateText.text = "You lost!";
+        Time.timeScale = 0;
+
+    }
 }
