@@ -228,7 +228,7 @@ public class Gamemanager : MonoBehaviour
                 stack.RemoveAt(stack.Count - 1);
             }
 
-            if (unusedNeighbors.Count == 4)
+            if (unusedNeighbors.Count > 0)
             {
                 Debug.Log("Current:" + current.XPos1 + "," + current.YPos1);
                 foreach (var mazeNode in unusedNeighbors)
@@ -249,6 +249,8 @@ public class Gamemanager : MonoBehaviour
             Debug.Log("stackel:" + mazeNode.XPos1 + "," + mazeNode.YPos1);
             SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
         }
+
+        mazeStack = stack;
     }
 
     private List<MazeNode> GetUnusedNeighbors(MazeNode mazeNode)
@@ -266,7 +268,7 @@ public class Gamemanager : MonoBehaviour
 
         if (mazeNode.YPos1 < 4 && !Maze[mazeNode.XPos1, mazeNode.YPos1 + 1].IsUsed)
         {
-            unusedNeighbors.Add(Maze[mazeNode.XPos1 + 1, mazeNode.YPos1 + 1]);
+            unusedNeighbors.Add(Maze[mazeNode.XPos1, mazeNode.YPos1 + 1]);
         }
 
         if (mazeNode.YPos1 > 0 && !Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed)

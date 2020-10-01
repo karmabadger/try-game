@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private int m_NbProjectiles = 0;
+    private int m_NbProjectiles = 110;
 
     private Gamemanager m_Gamemanager;
 
