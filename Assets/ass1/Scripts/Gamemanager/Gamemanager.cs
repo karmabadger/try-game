@@ -160,69 +160,66 @@ public class Gamemanager : MonoBehaviour
         
     }
     
-    void Generate()
-    {
-        Random.InitState(System.Environment.TickCount);
-        List<Vector2Int> a = new List<Vector2Int>();
+    // void Generate()
+    // {
+    //     Random.InitState(System.Environment.TickCount);
+    //     List<Vector2Int> a = new List<Vector2Int>();
+    //
+    //     int x = 5;
+    //     int y = 5;
+    //     a.Add(new Vector2Int(5, 5));
+    //     CreateFloor(5, 5);
+    //     int i = Random.Range(1, 5); //genereate 1,2,3,4
+    //     while (x != 7*5 || y != 7*5)
+    //     {
+    //         if (i == 2 && y - 3 * 5 >= 1 * 5 && !a.Contains(new Vector2Int(x, y - 3 * 5)) && !(x==7*5 && y==4*5))//move backward
+    //         {
+    //
+    //             CreateFloor(x, y - 3 * 5);
+    //             CreateFloor(x, y - 2 * 5);
+    //             CreateFloor(x, y - 1 * 5);
+    //             y = y - 3 * 5;
+    //             a.Add(new Vector2Int(x * 5, y * 5));
+    //
+    //         }
+    //         else if (i == 1 && y + 3 * 5 <= 7 * 5 && !a.Contains(new Vector2Int(x, y + 3 * 5)))//move forward
+    //         {
+    //             CreateFloor(x, y + 3 * 5);
+    //             CreateFloor(x, y + 2 * 5);
+    //             CreateFloor(x, y + 1 * 5);
+    //             y = y + 3 * 5;
+    //             a.Add(new Vector2Int(x, y));
+    //             
+    //         }
+    //          
+    //         else if (i == 3 && x - 3 * 5 >= 1 * 5 && !a.Contains(new Vector2Int(x - 3 * 5, y)))//move left
+    //         {
+    //
+    //             CreateFloor(x - 3 * 5, y);
+    //             CreateFloor(x - 2 * 5, y);
+    //             CreateFloor(x - 1 * 5, y);
+    //             x = x - 3 * 5;
+    //             a.Add(new Vector2Int(x, y));
+    //             
+    //         }
+    //         else if (i == 4 && x + 3 * 5 <= 7 * 5 && !a.Contains(new Vector2Int(x+3*5, y )))//move forward
+    //         {
+    //
+    //             CreateFloor(x + 3 * 5, y);
+    //             CreateFloor(x + 2 * 5, y);
+    //             CreateFloor(x + 1 * 5, y);
+    //             x = x + 3 * 5;
+    //             a.Add(new Vector2Int(x, y));
+    //             
+    //         }
+    //         i = Random.Range(1, 5);//genereate 1,2,3,4
+    //
+    //
+    //     }
+    //
+    // }
 
-        int x = 5;
-        int y = 5;
-        a.Add(new Vector2Int(5, 5));
-        CreateFloor(5, 5);
-        int i = Random.Range(1, 5); //genereate 1,2,3,4
-        while (x != 7*5 || y != 7*5)
-        {
-            if (i == 2 && y - 3 * 5 >= 1 * 5 && !a.Contains(new Vector2Int(x, y - 3 * 5)) && !(x==7*5 && y==4*5))//move backward
-            {
-
-                CreateFloor(x, y - 3 * 5);
-                CreateFloor(x, y - 2 * 5);
-                CreateFloor(x, y - 1 * 5);
-                y = y - 3 * 5;
-                a.Add(new Vector2Int(x * 5, y * 5));
-
-            }
-            else if (i == 1 && y + 3 * 5 <= 7 * 5 && !a.Contains(new Vector2Int(x, y + 3 * 5)))//move forward
-            {
-                CreateFloor(x, y + 3 * 5);
-                CreateFloor(x, y + 2 * 5);
-                CreateFloor(x, y + 1 * 5);
-                y = y + 3 * 5;
-                a.Add(new Vector2Int(x, y));
-                
-            }
-             
-            else if (i == 3 && x - 3 * 5 >= 1 * 5 && !a.Contains(new Vector2Int(x - 3 * 5, y)))//move left
-            {
-
-                CreateFloor(x - 3 * 5, y);
-                CreateFloor(x - 2 * 5, y);
-                CreateFloor(x - 1 * 5, y);
-                x = x - 3 * 5;
-                a.Add(new Vector2Int(x, y));
-                
-            }
-            else if (i == 4 && x + 3 * 5 <= 7 * 5 && !a.Contains(new Vector2Int(x+3*5, y )))//move forward
-            {
-
-                CreateFloor(x + 3 * 5, y);
-                CreateFloor(x + 2 * 5, y);
-                CreateFloor(x + 1 * 5, y);
-                x = x + 3 * 5;
-                a.Add(new Vector2Int(x, y));
-                
-            }
-            i = Random.Range(1, 5);//genereate 1,2,3,4
-
-
-        }
-
-    }
-
-    public void CreateFloor(int x, int y)
-    {
-        Spawn(BlockPrefab,  x-297, 2, y-122);
-    }
+    
     
     public void SpawnBlock(int x, int y, int blockType)
     {
@@ -285,6 +282,11 @@ public class Gamemanager : MonoBehaviour
     {
         gameStateText.text = "You lost!";
         Time.timeScale = 0;
+    }
 
+    public void Win()
+    {
+        gameStateText.text = "You won!";
+        Time.timeScale = 0;
     }
 }
