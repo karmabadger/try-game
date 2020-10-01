@@ -1,4 +1,5 @@
 ﻿using System;
+// using System.Numerics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class Gamemanager : MonoBehaviour
     public GameObject BlockandProjectilePrefab;
 
 
-    private ArrayList stack;
+    // private ArrayList stack;
 
 
     public void UpdateProjectilesText(int nb_Projectiles)
@@ -69,10 +70,10 @@ public class Gamemanager : MonoBehaviour
         int XLeft = 49;
         int YLeft = 25;
 
-        int leftAllowed = 5;
+        int leftAllowed = -1;
         int rightAllowed = 50;
         int upAllowed = 25;
-        int downAllowed = 5;
+        int downAllowed = -1;
 
         SpawnBlock(0, 0, 1);
 
@@ -84,6 +85,11 @@ public class Gamemanager : MonoBehaviour
         int nextstep = Random.Range(1, 5);
         while (XLeft != 0 || YLeft != 0)
         {
+            if (i > 500)
+            {
+                break;
+            }
+
             if (i % 4 == 0)
             {
                 blockType = 2;
@@ -165,7 +171,7 @@ public class Gamemanager : MonoBehaviour
 
     void GenerateMaze()
     {
-        stack = new ArrayList();
+        List<MazeNode> stack = new List<MazeNode>(25);
         // stack.Add();
 
         Random.InitState(System.Environment.TickCount);
@@ -178,89 +184,72 @@ public class Gamemanager : MonoBehaviour
         int curX = 0;
         int curY = 0;
 
-        int XLeft = 49;
-        int YLeft = 25;
+        int XLeft = 5;
+        int YLeft = 5;
 
         int leftAllowed = -1;
         int rightAllowed = 50;
         int upAllowed = 25;
         int downAllowed = -1;
 
-        SpawnBlock2(0, 0);
+        // SpawnBlock2(0, 0);
 
-        // stack.Add();
-        
+        stack.Add(Maze[0, 0]);
+
 
         int i = 0;
 
 
-
-
         int nextstep = Random.Range(1, 5);
-        while (XLeft != 0 || YLeft != 0)
+        while (stack[stack.Count - 1].XPos1 != 4)
         {
-
-            if (nextstep == 1) // right
+            if (i > 500)
             {
-                if (rightAllowed > 0 && (curX - lastX) != -1)
-                {
-                    lastX = curX;
-                    curX++;
-                    SpawnBlock2(curX * 5, curY * 5);
-
-                    XLeft--;
-
-                    leftAllowed++;
-                    rightAllowed--;
-                }
-            }
-            else if (nextstep == 2 && (curY - lastY) != -1) // up
-            {
-                if (upAllowed > 0)
-                {
-                    lastY = curY;
-                    curY++;
-                    SpawnBlock2(curX * 5, curY * 5);
-
-                    YLeft--;
-
-                    downAllowed++;
-                    upAllowed--;
-                }
-            }
-            else if (nextstep == 3 && (curX - lastX) != 1) // left
-            {
-                if (leftAllowed > 0)
-                {
-                    lastX = curX;
-                    curX--;
-                    SpawnBlock2(curX * 5, curY * 5);
-
-                    XLeft++;
-
-                    rightAllowed++;
-                    leftAllowed--;
-                }
-            }
-            else if (nextstep == 4) // down
-            {
-                if (downAllowed > 0 && (curY - lastY) != 1)
-                {
-                    lastY = curY;
-                    curY--;
-                    SpawnBlock2(curX * 5, curY * 5);
-
-                    YLeft++;
-
-                    upAllowed++;
-                    downAllowed--;
-                }
+                break;
             }
 
-            nextstep = Random.Range(1, 5);
+            stack[stack.Count - 1].IsUsed = true;
 
+            List<MazeNode> unusedNeighbors = GetUnusedNeighbors(stack[stack.Count - 1]);
+
+            if (unusedNeighbors.Count > 0)
+            {
+                nextstep = Random.Range(0, unusedNeighbors.Count);
+            }
+            stack.Add(unusedNeighbors[nextstep]);
             i++;
         }
+
+        foreach (var mazeNode in stack)
+        {
+            SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+        }
+    }
+
+    private List<MazeNode> GetUnusedNeighbors(MazeNode mazeNode)
+    {
+        List<MazeNode> unusedNeighbors = new List<MazeNode>();
+        if (mazeNode.XPos1 < 4 && !Maze[mazeNode.XPos1 + 1, mazeNode.YPos1].IsUsed)
+        {
+            unusedNeighbors.Add(Maze[mazeNode.XPos1 + 1, mazeNode.YPos1]);
+        }
+
+        if (mazeNode.XPos1 > 0 && !Maze[mazeNode.XPos1 - 1, mazeNode.YPos1].IsUsed)
+        {
+            unusedNeighbors.Add(Maze[mazeNode.XPos1 - 1, mazeNode.YPos1]);
+        }
+        
+        if (mazeNode.YPos1 < 4 && !Maze[mazeNode.XPos1, mazeNode.YPos1 + 1].IsUsed)
+        {
+            unusedNeighbors.Add(Maze[mazeNode.XPos1 + 1, mazeNode.YPos1 + 1]);
+        }
+        
+        if (mazeNode.YPos1 > 0 && !Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed)
+        {
+            unusedNeighbors.Add(Maze[mazeNode.XPos1, mazeNode.YPos1 - 1]);
+        }
+
+        return unusedNeighbors;
     }
 
     // void Generate()
@@ -323,23 +312,21 @@ public class Gamemanager : MonoBehaviour
     // }
 
 
-    public void SpawnBlock(int x, int y, int blockType)
+    public void SpawnBlock(float x, float y, int blockType)
     {
         if (blockType == 1)
         {
-            Spawn(BlockPrefab, x - 297, 2, y - 122);
+            Spawn(BlockPrefab, x - 298, 2, y - 122);
         }
         else
         {
             Spawn(BlockandProjectilePrefab, x - 297, 2, y - 122);
         }
     }
-    
-    public void SpawnBlock2(int x, int y)
-    {
 
-            Spawn(BlockPrefab, x - 297, 2, y - 122);
-       
+    public void SpawnBlock2(float x, float y)
+    {
+        Spawn(BlockPrefab, x * 20 - 40, 2, y * 20 + 2);
     }
 
 
@@ -350,7 +337,7 @@ public class Gamemanager : MonoBehaviour
         {
             for (int j = 0; j < Unimaze.GetLength(1); j++)
             {
-                Unimaze[i, j] = new MazeNode();
+                Unimaze[i, j] = new MazeNode(i, j, false);
             }
         }
 
@@ -359,7 +346,7 @@ public class Gamemanager : MonoBehaviour
         {
             for (int j = 0; j < Maze.GetLength(1); j++)
             {
-                Maze[i, j] = new MazeNode();
+                Maze[i, j] = new MazeNode(i, j, false);
             }
         }
 
@@ -378,6 +365,9 @@ public class Gamemanager : MonoBehaviour
 
 
         GenerateUniMaze();
+
+        GenerateMaze();
+        
     }
 
     // Start is called before the first frame update
