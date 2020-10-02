@@ -28,8 +28,14 @@ public class Gamemanager : MonoBehaviour
 
     public GameObject PlatformPrefab;
 
+    public GameObject NorthWall;
+    public GameObject SouthWall;
+    public GameObject EastWall;
+    public GameObject WestWall;
+
 
     private List<MazeNode> mazeStack;
+    private List<GameObject> platformList;
 
 
     public void UpdateProjectilesText(int nb_Projectiles)
@@ -37,9 +43,9 @@ public class Gamemanager : MonoBehaviour
         projectilesText.text = "Projectiles: " + nb_Projectiles;
     }
 
-    public void Spawn(GameObject gameObject, float Xpos, float Ypos, float Zpos)
+    public GameObject Spawn(GameObject gameObject, float Xpos, float Ypos, float Zpos)
     {
-        Instantiate(gameObject, new Vector3(Xpos, Ypos, Zpos), Quaternion.identity);
+        return Instantiate(gameObject, new Vector3(Xpos, Ypos, Zpos), Quaternion.identity);
     }
 
 
@@ -162,18 +168,14 @@ public class Gamemanager : MonoBehaviour
 
             i++;
         }
-
-        // Debug.Log("yoyyoyoyo");
-        // Debug.Log(curX);
-        // Debug.Log(curY);
-        // Debug.Log(XLeft);
-        // Debug.Log(YLeft);
     }
 
 
     void GenerateMaze()
     {
         List<MazeNode> stack = new List<MazeNode>(25);
+
+        platformList = new List<GameObject>();
         // stack.Add();
 
         Random.InitState(System.Environment.TickCount);
@@ -205,7 +207,7 @@ public class Gamemanager : MonoBehaviour
         int nextstep = Random.Range(1, 5);
 
         MazeNode current = Maze[0, 0];
-        while (current.XPos1 != 4)
+        while (current.XPos1 != 4 || current.YPos1 < 3)
         {
             if (i > 500)
             {
@@ -216,11 +218,28 @@ public class Gamemanager : MonoBehaviour
 
             List<MazeNode> unusedNeighbors = GetUnusedNeighbors(current);
 
-            Debug.Log(unusedNeighbors.Count);
+            // Debug.Log(unusedNeighbors.Count);
 
             if (unusedNeighbors.Count > 0)
             {
                 nextstep = Random.Range(0, unusedNeighbors.Count);
+
+                // if (unusedNeighbors[nextstep].XPos1 < 4 && unusedNeighbors[nextstep].YPos1 < 3)
+                // {
+                //     // unusedNeighbors.RemoveAt(nextstep);
+                //     // nextstep = Random.Range(0, unusedNeighbors.Count);
+                //
+                //     // if (unusedNeighbors.Count == 0)
+                //     // {
+                //     //     stack.RemoveAt(stack.Count - 1);
+                //     //
+                //     // }
+                // }
+                // else
+                // {
+                //     stack.Add(unusedNeighbors[nextstep]);
+                // }
+
                 stack.Add(unusedNeighbors[nextstep]);
             }
             else
@@ -228,26 +247,119 @@ public class Gamemanager : MonoBehaviour
                 stack.RemoveAt(stack.Count - 1);
             }
 
-            if (unusedNeighbors.Count > 0)
-            {
-                Debug.Log("Current:" + current.XPos1 + "," + current.YPos1);
-                foreach (var mazeNode in unusedNeighbors)
-                {
-                    Debug.Log("nei:" + mazeNode.XPos1 + "," + mazeNode.YPos1);
-                }
-                Debug.Log("Choice:" + unusedNeighbors[nextstep].XPos1 + "," + unusedNeighbors[nextstep].YPos1);
-            }
+            // if (unusedNeighbors.Count > 0)
+            // {
+            //     // Debug.Log("Current:" + current.XPos1 + "," + current.YPos1);
+            //     foreach (var mazeNode in unusedNeighbors)
+            //     {
+            //         Debug.Log("nei:" + mazeNode.XPos1 + "," + mazeNode.YPos1);
+            //     }
+            //
+            //     Debug.Log("Choice:" + unusedNeighbors[nextstep].XPos1 + "," + unusedNeighbors[nextstep].YPos1);
+            // }
 
             i++;
 
             current = stack[stack.Count - 1];
         }
 
-        Debug.Log("Stack is: ");
+        List<int> pathList = new List<int>();
+
+        Debug.Log("stackcount: " + stack.Count);
+        for (int j = 1; j < stack.Count; j++)
+        {
+            Debug.Log("i: " + j);
+            int Xdiff = stack[j].XPos1 - stack[j - 1].XPos1;
+            int Ydiff = stack[j].YPos1 - stack[j - 1].YPos1;
+
+            if (Xdiff == 1)
+            {
+                pathList.Add(1);
+            }
+            else if (Xdiff == -1)
+            {
+                pathList.Add(3);
+            }
+            else if (Ydiff == 1)
+            {
+                pathList.Add(2);
+            }
+            else if (Ydiff == -1)
+            {
+                pathList.Add(4);
+            }
+        }
+
+        Debug.Log("Path: ");
+        foreach (int pat in pathList)
+        {
+            Debug.Log(pat);
+        }
+
+        int index = 0;
+        int path1 = 1;
+        int path2 = pathList[index];
+
+
+        // Debug.Log("Stack is: ");
         foreach (var mazeNode in stack)
         {
-            Debug.Log("stackel:" + mazeNode.XPos1 + "," + mazeNode.YPos1);
-            SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+            // Debug.Log("stackel:" + mazeNode.XPos1 + "," + mazeNode.YPos1);
+
+            mazeNode.IsSpawned = true;
+            GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+
+            platformList.Add(block);
+
+            if (path1 == path2)
+            {
+                if (path1 % 2 == 1)
+                {
+                    SpawnWall(NorthWall, block.GetComponent<Transform>());
+                    SpawnWall(SouthWall, block.GetComponent<Transform>());
+                }
+                else
+                {
+                    SpawnWall(EastWall, block.GetComponent<Transform>());
+                    SpawnWall(WestWall, block.GetComponent<Transform>());
+                }
+            }
+            else
+            {
+                if ((path1 == 1 && path2 == 2) || (path1 == 4 && path2 == 3))
+                {
+                    SpawnWall(EastWall, block.GetComponent<Transform>());
+                    SpawnWall(SouthWall, block.GetComponent<Transform>());
+                }
+                else if ((path1 == 1 && path2 == 4) || (path1 == 2 && path2 == 3))
+                {
+                    SpawnWall(EastWall, block.GetComponent<Transform>());
+                    SpawnWall(NorthWall, block.GetComponent<Transform>());
+                }
+                else if ((path1 == 2 && path2 == 1) || (path1 == 3 && path2 == 4))
+                {
+                    SpawnWall(WestWall, block.GetComponent<Transform>());
+                    SpawnWall(NorthWall, block.GetComponent<Transform>());
+                }
+                else if ((path1 == 4 && path2 == 1) || (path1 == 3 && path2 == 2))
+                {
+                    SpawnWall(WestWall, block.GetComponent<Transform>());
+                    SpawnWall(SouthWall, block.GetComponent<Transform>());
+                }
+            }
+
+            index++;
+
+            path1 = path2;
+
+            if (index > (stack.Count - 2))
+            {
+                path2 = 1;
+            }
+            else
+            {
+                path2 = pathList[index];
+            }
         }
 
         mazeStack = stack;
@@ -273,73 +385,13 @@ public class Gamemanager : MonoBehaviour
 
         if (mazeNode.YPos1 > 0 && !Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed)
         {
-            Debug.Log("down: " + Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed);
+            // Debug.Log("down: " + Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed);
             // Debug.Log();
             unusedNeighbors.Add(Maze[mazeNode.XPos1, mazeNode.YPos1 - 1]);
         }
 
         return unusedNeighbors;
     }
-
-    // void Generate()
-    // {
-    //     Random.InitState(System.Environment.TickCount);
-    //     List<Vector2Int> a = new List<Vector2Int>();
-    //
-    //     int x = 5;
-    //     int y = 5;
-    //     a.Add(new Vector2Int(5, 5));
-    //     CreateFloor(5, 5);
-    //     int i = Random.Range(1, 5); //genereate 1,2,3,4
-    //     while (x != 7*5 || y != 7*5)
-    //     {
-    //         if (i == 2 && y - 3 * 5 >= 1 * 5 && !a.Contains(new Vector2Int(x, y - 3 * 5)) && !(x==7*5 && y==4*5))//move backward
-    //         {
-    //
-    //             CreateFloor(x, y - 3 * 5);
-    //             CreateFloor(x, y - 2 * 5);
-    //             CreateFloor(x, y - 1 * 5);
-    //             y = y - 3 * 5;
-    //             a.Add(new Vector2Int(x * 5, y * 5));
-    //
-    //         }
-    //         else if (i == 1 && y + 3 * 5 <= 7 * 5 && !a.Contains(new Vector2Int(x, y + 3 * 5)))//move forward
-    //         {
-    //             CreateFloor(x, y + 3 * 5);
-    //             CreateFloor(x, y + 2 * 5);
-    //             CreateFloor(x, y + 1 * 5);
-    //             y = y + 3 * 5;
-    //             a.Add(new Vector2Int(x, y));
-    //             
-    //         }
-    //          
-    //         else if (i == 3 && x - 3 * 5 >= 1 * 5 && !a.Contains(new Vector2Int(x - 3 * 5, y)))//move left
-    //         {
-    //
-    //             CreateFloor(x - 3 * 5, y);
-    //             CreateFloor(x - 2 * 5, y);
-    //             CreateFloor(x - 1 * 5, y);
-    //             x = x - 3 * 5;
-    //             a.Add(new Vector2Int(x, y));
-    //             
-    //         }
-    //         else if (i == 4 && x + 3 * 5 <= 7 * 5 && !a.Contains(new Vector2Int(x+3*5, y )))//move forward
-    //         {
-    //
-    //             CreateFloor(x + 3 * 5, y);
-    //             CreateFloor(x + 2 * 5, y);
-    //             CreateFloor(x + 1 * 5, y);
-    //             x = x + 3 * 5;
-    //             a.Add(new Vector2Int(x, y));
-    //             
-    //         }
-    //         i = Random.Range(1, 5);//genereate 1,2,3,4
-    //
-    //
-    //     }
-    //
-    // }
-
 
     public void SpawnBlock(float x, float y, int blockType)
     {
@@ -349,13 +401,65 @@ public class Gamemanager : MonoBehaviour
         }
         else
         {
-            Spawn(BlockandProjectilePrefab, x - 297, 2, y - 122);
+            Spawn(BlockandProjectilePrefab, x - 298, 2, y - 122);
         }
     }
 
-    public void SpawnBlock2(float x, float y)
+    public GameObject SpawnBlock2(float x, float y)
     {
-        Spawn(PlatformPrefab, x * 20 - 40, 2, y * 20 + 2);
+        return Spawn(PlatformPrefab, x * 20 - 40, 2, y * 20 + 2);
+    }
+
+    public GameObject SpawnWall(GameObject wall, Transform parentTransform)
+    {
+        GameObject wallObject = Instantiate(wall, parentTransform);
+        var localScale = wall.transform.localScale;
+        // wallObject.transform.parent = parent;
+        wallObject.transform.localScale = localScale;
+
+        return wallObject;
+    }
+
+    private void FillMaze()
+    {
+        foreach (MazeNode mazeNode in Maze)
+        {
+            if (!mazeNode.IsSpawned)
+            {
+                GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+                
+                Random.InitState(System.Environment.TickCount);
+                int number = Random.Range(0, 2);
+
+                if (number > 0)
+                {
+                    SpawnWall(NorthWall, block.GetComponent<Transform>());
+                }
+                
+                number = Random.Range(0, 2);
+
+                if (number > 0)
+                {
+                    SpawnWall(SouthWall, block.GetComponent<Transform>());
+                }
+                
+                number = Random.Range(0, 2);
+
+                if (number > 0)
+                {
+                    SpawnWall(EastWall, block.GetComponent<Transform>());
+                }
+                
+                number = Random.Range(0, 2);
+
+                if (number > 0)
+                {
+                    SpawnWall(WestWall, block.GetComponent<Transform>());
+                }
+                
+            }
+        }
+        
     }
 
 
@@ -396,6 +500,8 @@ public class Gamemanager : MonoBehaviour
         GenerateUniMaze();
 
         GenerateMaze();
+
+        FillMaze();
     }
 
     // Start is called before the first frame update
@@ -403,6 +509,28 @@ public class Gamemanager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CheckPlatforms() == 0)
+        {
+            Win();
+        }
+        else
+        {
+            // Debug.Log("count: " + platformList.Count);
+        }
+    }
+
+    public int CheckPlatforms()
+    {
+        int left = 0;
+        foreach (var plat in platformList)
+        {
+            if (plat != null)
+            {
+                left++;
+            }
+        }
+
+        return left;
     }
 
     public void Gameover()

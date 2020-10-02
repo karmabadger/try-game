@@ -13,6 +13,7 @@ TagManager:
   - GameManager
   - bullet
   - Platform
+  - PlatformWall
   layers:
   - Default
   - TransparentFX

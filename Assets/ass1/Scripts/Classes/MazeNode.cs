@@ -14,14 +14,23 @@ public class MazeNode : System.Object
    private int YPos;
 
    private bool isUsed;
+   private bool isSpawned;
 
    private int blockType;
+   
 
    public MazeNode(int xPos, int yPos, bool isUsed)
    {
       XPos = xPos;
       YPos = yPos;
       this.isUsed = isUsed;
+      this.isSpawned = false;
+   }
+
+   public bool IsSpawned
+   {
+      get => isSpawned;
+      set => isSpawned = value;
    }
 
    public int XPos1

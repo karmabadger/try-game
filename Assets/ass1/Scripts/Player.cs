@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
     public GameObject projectilePrefab;
 
+    private GameObject bullet;
+
 
     public int GetNbProjectiles()
     {
@@ -23,6 +25,9 @@ public class Player : MonoBehaviour
     {
         // projectilePrefab = Resources.Load("Projectile") as GameObject;
         m_Gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Gamemanager>();
+
+        bullet = Instantiate(projectilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        bullet.SetActive(false);
     }
 
     // Update is called once per frame
@@ -41,7 +46,18 @@ public class Player : MonoBehaviour
     {
         Vector3 vector = gameObject.GetComponent<Transform>().position;
         var forward = Camera.main.transform.forward;
-        GameObject projectile = Instantiate(projectilePrefab, vector + forward * 2, Quaternion.identity);
+
+
+        // GameObject projectile = Instantiate(projectilePrefab, vector + forward * 2, Quaternion.identity);
+        GameObject projectile = bullet;
+        bullet.GetComponent<Transform>().position = vector + forward * 2;
+
+
+        bullet.GetComponent<Transform>().rotation = Camera.main.transform.rotation * Quaternion.Euler(1,1,1);
+
+
+        bullet.SetActive(true);
+
         projectile.GetComponent<Rigidbody>().velocity = forward * 40;
 
         // projectile.GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, 1));
