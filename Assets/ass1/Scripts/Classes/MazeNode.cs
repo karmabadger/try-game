@@ -17,7 +17,14 @@ public class MazeNode : System.Object
    private bool isSpawned;
 
    private int blockType;
-   
+
+   private GameObject cellGameObject;
+
+   public GameObject CellGameObject
+   {
+      get => cellGameObject;
+      set => cellGameObject = value;
+   }
 
    public MazeNode(int xPos, int yPos, bool isUsed)
    {

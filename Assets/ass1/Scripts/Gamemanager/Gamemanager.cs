@@ -37,6 +37,13 @@ public class Gamemanager : MonoBehaviour
     private List<MazeNode> mazeStack;
     private List<GameObject> platformList;
 
+    private List<GameObject> SpawnedList;
+
+
+    private bool statedCondition1;
+    private bool statedCondition2;
+    private bool statedCondition3;
+
 
     public void UpdateProjectilesText(int nb_Projectiles)
     {
@@ -265,10 +272,10 @@ public class Gamemanager : MonoBehaviour
 
         List<int> pathList = new List<int>();
 
-        Debug.Log("stackcount: " + stack.Count);
+        // Debug.Log("stackcount: " + stack.Count);
         for (int j = 1; j < stack.Count; j++)
         {
-            Debug.Log("i: " + j);
+            // Debug.Log("i: " + j);
             int Xdiff = stack[j].XPos1 - stack[j - 1].XPos1;
             int Ydiff = stack[j].YPos1 - stack[j - 1].YPos1;
 
@@ -290,11 +297,11 @@ public class Gamemanager : MonoBehaviour
             }
         }
 
-        Debug.Log("Path: ");
-        foreach (int pat in pathList)
-        {
-            Debug.Log(pat);
-        }
+        // Debug.Log("Path: ");
+        // foreach (int pat in pathList)
+        // {
+        //     // Debug.Log(pat);
+        // }
 
         int index = 0;
         int path1 = 1;
@@ -308,6 +315,8 @@ public class Gamemanager : MonoBehaviour
 
             mazeNode.IsSpawned = true;
             GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+
+            mazeNode.CellGameObject = block;
 
             platformList.Add(block);
 
@@ -422,44 +431,144 @@ public class Gamemanager : MonoBehaviour
 
     private void FillMaze()
     {
-        foreach (MazeNode mazeNode in Maze)
+        bool allSpawned = false;
+
+        while (!allSpawned)
         {
-            if (!mazeNode.IsSpawned)
+            Random.InitState(System.Environment.TickCount);
+            allSpawned = true;
+            foreach (MazeNode mazeNode in Maze)
             {
-                GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
-                
-                Random.InitState(System.Environment.TickCount);
-                int number = Random.Range(0, 2);
-
-                if (number > 0)
+                if (!mazeNode.IsSpawned)
                 {
-                    SpawnWall(NorthWall, block.GetComponent<Transform>());
-                }
-                
-                number = Random.Range(0, 2);
+                    allSpawned = false;
+                    MazeNode neighbor = GetSpawnedNeighbor(mazeNode);
 
-                if (number > 0)
-                {
-                    SpawnWall(SouthWall, block.GetComponent<Transform>());
-                }
-                
-                number = Random.Range(0, 2);
+                    if (neighbor != null)
+                    {
+                        int Xdiff = mazeNode.XPos1 - neighbor.XPos1;
+                        int Ydiff = mazeNode.YPos1 - neighbor.YPos1;
+                        int path = 0;
 
-                if (number > 0)
-                {
-                    SpawnWall(EastWall, block.GetComponent<Transform>());
+                        if (Xdiff == 1)
+                        {
+                            path = 1;
+                        }
+                        else if (Xdiff == -1)
+                        {
+                            path = 3;
+                        }
+                        else if (Ydiff == 1)
+                        {
+                            path = 2;
+                        }
+                        else if (Ydiff == -1)
+                        {
+                            path = 4;
+                        }
+                        
+                        AddCellIntoMaze(mazeNode, neighbor.CellGameObject, path);
+                    }
                 }
-                
-                number = Random.Range(0, 2);
-
-                if (number > 0)
-                {
-                    SpawnWall(WestWall, block.GetComponent<Transform>());
-                }
-                
             }
         }
-        
+    }
+
+    public void AddCellIntoMaze(MazeNode mazeNode, GameObject neighbor, int direction)
+    {
+        if (direction == 1)
+        {
+            Destroy(neighbor.transform.Find("EastWall"));
+            
+            mazeNode.IsSpawned = true;
+            GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+
+            mazeNode.CellGameObject = block;
+            
+            SpawnWall(NorthWall, block.GetComponent<Transform>());
+            SpawnWall(EastWall, block.GetComponent<Transform>());
+            SpawnWall(SouthWall, block.GetComponent<Transform>());
+
+
+        }
+        else if (direction == 2)
+        {
+            Destroy(neighbor.transform.Find("NorthWall"));
+            
+            mazeNode.IsSpawned = true;
+            GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+
+            mazeNode.CellGameObject = block;
+
+            SpawnWall(WestWall, block.GetComponent<Transform>());
+            SpawnWall(NorthWall, block.GetComponent<Transform>());
+            SpawnWall(EastWall, block.GetComponent<Transform>());
+        }
+        else if (direction == 3)
+        {
+            Destroy(neighbor.transform.Find("WestWall"));
+            
+            mazeNode.IsSpawned = true;
+            GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+
+            mazeNode.CellGameObject = block;
+
+            SpawnWall(SouthWall, block.GetComponent<Transform>());
+            SpawnWall(WestWall, block.GetComponent<Transform>());
+            SpawnWall(NorthWall, block.GetComponent<Transform>());
+        }
+        else
+        {
+            Destroy(neighbor.transform.Find("SouthWall"));
+            
+            mazeNode.IsSpawned = true;
+            GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
+
+            mazeNode.CellGameObject = block;
+
+            SpawnWall(EastWall, block.GetComponent<Transform>());
+            SpawnWall(SouthWall, block.GetComponent<Transform>());
+            SpawnWall(WestWall, block.GetComponent<Transform>());
+        }
+
+    }
+
+    public MazeNode GetSpawnedNeighbor(MazeNode mazeNode)
+    {
+        List<MazeNode> spawnedNeighbors = new List<MazeNode>();
+        if (mazeNode.XPos1 < 4 && Maze[mazeNode.XPos1 + 1, mazeNode.YPos1].IsSpawned)
+        {
+            spawnedNeighbors.Add(Maze[mazeNode.XPos1 + 1, mazeNode.YPos1]);
+        }
+
+        if (mazeNode.XPos1 > 0 && Maze[mazeNode.XPos1 - 1, mazeNode.YPos1].IsSpawned)
+        {
+            spawnedNeighbors.Add(Maze[mazeNode.XPos1 - 1, mazeNode.YPos1]);
+        }
+
+        if (mazeNode.YPos1 < 4 && Maze[mazeNode.XPos1, mazeNode.YPos1 + 1].IsSpawned)
+        {
+            spawnedNeighbors.Add(Maze[mazeNode.XPos1, mazeNode.YPos1 + 1]);
+        }
+
+        if (mazeNode.YPos1 > 0 && Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsSpawned)
+        {
+            // Debug.Log("down: " + Maze[mazeNode.XPos1, mazeNode.YPos1 - 1].IsUsed);
+            // Debug.Log();
+            spawnedNeighbors.Add(Maze[mazeNode.XPos1, mazeNode.YPos1 - 1]);
+        }
+        Random.InitState(System.Environment.TickCount);
+
+        if (spawnedNeighbors.Count == 0)
+        {
+            return null;
+
+        }
+        else
+        {
+            int index = Random.Range(0, spawnedNeighbors.Count - 1);
+            return spawnedNeighbors[index];
+        }
     }
 
 
@@ -488,10 +597,21 @@ public class Gamemanager : MonoBehaviour
         gameStateText = GameObject.FindGameObjectWithTag("GameStateText").GetComponent<TextMeshProUGUI>();
         playerGameObject = GameObject.FindWithTag("Player");
         playerScript = playerGameObject.GetComponent<Player>();
+
+
+        SpawnedList = new List<GameObject>();
     }
 
     void Start()
     {
+        GameEvents.current.OnZone1TriggerEnter += OnZone1Show;
+        GameEvents.current.OnZone1TriggerExit += OnZone1UnShow;
+
+        GameEvents.current.OnZone2TriggerEnter += OnZone2Show;
+        GameEvents.current.OnZone2TriggerExit += OnZone2UnShow;
+
+        GameEvents.current.OnZone3TriggerEnter += OnZone3Show;
+        GameEvents.current.OnZone3TriggerExit += OnZone3UnShow;
         // Generate();
 
         gameStateText.text = "";
@@ -509,7 +629,7 @@ public class Gamemanager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CheckPlatforms() == 0)
+        if (CheckIfWin())
         {
             Win();
         }
@@ -519,18 +639,27 @@ public class Gamemanager : MonoBehaviour
         }
     }
 
-    public int CheckPlatforms()
+    public bool CheckIfWin()
     {
-        int left = 0;
-        foreach (var plat in platformList)
+        // Debug.Log("winside: " + playerScript.IsOnWinSide);
+        if (playerScript.IsOnWinSide)
         {
-            if (plat != null)
+            bool win = false;
+            // int left = 0;
+            foreach (var plat in platformList)
             {
-                left++;
+                if (plat == null)
+                {
+                    win = true;
+                }
             }
-        }
 
-        return left;
+            return win;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void Gameover()
@@ -543,5 +672,48 @@ public class Gamemanager : MonoBehaviour
     {
         gameStateText.text = "You won!";
         Time.timeScale = 0;
+    }
+
+    // public void StateCondition1()
+    // {
+    //     gameStateText.alpha = Single.MaxValue;
+    //     gameStateText.text = "Goal: Cross the Canyon";
+    //
+    //     float beginTime = Time.time;
+    //
+    //     if (Time.time - beginTime > 5)
+    //     {
+    //         gameStateText.text = "";
+    //     }
+    // }
+
+    private void OnZone1Show()
+    {
+        gameStateText.text = "Follow The Path And Collect The Projectiles";
+    }
+
+    private void OnZone1UnShow()
+    {
+        gameStateText.text = "";
+    }
+
+    private void OnZone2Show()
+    {
+        gameStateText.text = "Solve The Maze And Traverse It";
+    }
+
+    private void OnZone2UnShow()
+    {
+        gameStateText.text = "";
+    }
+
+    private void OnZone3Show()
+    {
+        gameStateText.text = "Destroy The Maze";
+    }
+
+    private void OnZone3UnShow()
+    {
+        gameStateText.text = "";
     }
 }

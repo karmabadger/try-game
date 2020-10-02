@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     private GameObject bullet;
 
+    private bool isOnWinSide;
+
 
     public int GetNbProjectiles()
     {
@@ -28,6 +30,8 @@ public class Player : MonoBehaviour
 
         bullet = Instantiate(projectilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
         bullet.SetActive(false);
+
+        isOnWinSide = false;
     }
 
     // Update is called once per frame
@@ -40,6 +44,12 @@ public class Player : MonoBehaviour
                 Shoot();
             }
         }
+    }
+
+    public bool IsOnWinSide
+    {
+        get => isOnWinSide;
+        set => isOnWinSide = value;
     }
 
     private void Shoot()
@@ -70,16 +80,23 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        
+        // Debug.Log(other.gameObject.name);
         if (other.CompareTag("Projectile"))
         {
             m_NbProjectiles++;
             m_Gamemanager.UpdateProjectilesText(m_NbProjectiles);
             Destroy(other.gameObject);
-        }
-
-        if (other.CompareTag("CanyonTrigger"))
+        } else if (other.CompareTag("CanyonTrigger"))
         {
             m_Gamemanager.Gameover();
         }
+        else if (other.CompareTag("winside"))
+        {
+            isOnWinSide = true;
+
+        } 
+
+        
     }
 }

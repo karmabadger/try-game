@@ -14,12 +14,16 @@
               <e p="MazeNode.cs" t="Include" />
             </e>
             <e p="Collectible.cs" t="Include" />
+            <e p="GameEvents.cs" t="Include" />
             <e p="Gamemanager" t="Include">
               <e p="Gamemanager.cs" t="Include" />
             </e>
             <e p="Platform.cs" t="Include" />
             <e p="Player.cs" t="Include" />
             <e p="Projectile.cs" t="Include" />
+            <e p="Zone1.cs" t="Include" />
+            <e p="Zone2.cs" t="Include" />
+            <e p="Zone3.cs" t="Include" />
           </e>
         </e>
         <e p="FirstPersion AIO Pack" t="Include">
