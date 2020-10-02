@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        
+        // Debug.Log("other is:" + other.transform.gameObject.name);
         if (other.CompareTag("Platform"))
         {
             Destroy(other.transform.parent.gameObject);
@@ -32,6 +34,9 @@ public class Projectile : MonoBehaviour
         }
         else if (other.CompareTag("Zone"))
         {
+        }else if (other.CompareTag("winside"))
+        {
+            
         }
         else
         {
