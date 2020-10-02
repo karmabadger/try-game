@@ -466,7 +466,24 @@ public class Gamemanager : MonoBehaviour
                         {
                             path = 4;
                         }
-                        
+
+                        // Debug.Log("current: " + mazeNode);
+                        // Debug.Log("neighbor: " + neighbor.CellGameObject);
+
+                        // if (neighbor.CellGameObject == null)
+                        // {
+                        //     // Debug.Log("null neighbor");
+                        // }
+
+                        // Debug.Log("current: " + mazeNode.XPos1 + ", " + mazeNode.YPos1);
+                        // Debug.Log("direction: " + path);
+                        // Debug.Log("neighbor: " + neighbor.XPos1 + ", " + neighbor.YPos1);
+                        //
+                        // foreach (Transform eachChild in neighbor.CellGameObject.transform)
+                        // {
+                        //     Debug.Log("children: " + eachChild.name);
+                        // }
+
                         AddCellIntoMaze(mazeNode, neighbor.CellGameObject, path);
                     }
                 }
@@ -478,23 +495,33 @@ public class Gamemanager : MonoBehaviour
     {
         if (direction == 1)
         {
-            Destroy(neighbor.transform.Find("EastWall"));
-            
+            // Debug.Log("current: " + mazeNode.XPos1 + "," + mazeNode.YPos1);
+            // Debug.Log("direction: " + direction);
+            // Debug.Log("neighbor: " + neighbor);
+
+            GameObject badwall = neighbor.transform.Find("EastWall(Clone)").gameObject;
+
+            Destroy(badwall);
+
             mazeNode.IsSpawned = true;
             GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
 
             mazeNode.CellGameObject = block;
-            
+
             SpawnWall(NorthWall, block.GetComponent<Transform>());
             SpawnWall(EastWall, block.GetComponent<Transform>());
             SpawnWall(SouthWall, block.GetComponent<Transform>());
-
-
         }
         else if (direction == 2)
         {
-            Destroy(neighbor.transform.Find("NorthWall"));
-            
+            // Debug.Log("current: " + mazeNode.XPos1 + "," + mazeNode.YPos1);
+            // Debug.Log("direction: " + direction);
+            // Debug.Log("neighbor: " + neighbor);
+
+            GameObject badwall = neighbor.transform.Find("NorthWall(Clone)").gameObject;
+
+            Destroy(badwall);
+
             mazeNode.IsSpawned = true;
             GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
 
@@ -506,8 +533,14 @@ public class Gamemanager : MonoBehaviour
         }
         else if (direction == 3)
         {
-            Destroy(neighbor.transform.Find("WestWall"));
-            
+            // Debug.Log("current: " + mazeNode.XPos1 + "," + mazeNode.YPos1);
+            // Debug.Log("direction: " + direction);
+            // Debug.Log("neighbor: " + neighbor);
+
+            GameObject badwall = neighbor.transform.Find("WestWall(Clone)").gameObject;
+
+            Destroy(badwall);
+
             mazeNode.IsSpawned = true;
             GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
 
@@ -519,8 +552,14 @@ public class Gamemanager : MonoBehaviour
         }
         else
         {
-            Destroy(neighbor.transform.Find("SouthWall"));
-            
+            // Debug.Log("current: " + mazeNode.XPos1 + "," + mazeNode.YPos1);
+            // Debug.Log("direction: " + direction);
+            // Debug.Log("neighbor: " + neighbor);
+
+            GameObject badwall = neighbor.transform.Find("SouthWall(Clone)").gameObject;
+
+            Destroy(badwall);
+
             mazeNode.IsSpawned = true;
             GameObject block = SpawnBlock2(mazeNode.XPos1, mazeNode.YPos1);
 
@@ -530,7 +569,6 @@ public class Gamemanager : MonoBehaviour
             SpawnWall(SouthWall, block.GetComponent<Transform>());
             SpawnWall(WestWall, block.GetComponent<Transform>());
         }
-
     }
 
     public MazeNode GetSpawnedNeighbor(MazeNode mazeNode)
@@ -557,12 +595,12 @@ public class Gamemanager : MonoBehaviour
             // Debug.Log();
             spawnedNeighbors.Add(Maze[mazeNode.XPos1, mazeNode.YPos1 - 1]);
         }
+
         Random.InitState(System.Environment.TickCount);
 
         if (spawnedNeighbors.Count == 0)
         {
             return null;
-
         }
         else
         {
@@ -633,9 +671,29 @@ public class Gamemanager : MonoBehaviour
         {
             Win();
         }
+
+        if (CheckIfLostNoProjectile())
+        {
+            Gameover();
+        }
+    }
+
+    private bool CheckIfLostNoProjectile()
+    {
+        if (playerScript.IsOnWinSide)
+        {
+            if (playerScript.GetNbProjectiles() <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         else
         {
-            // Debug.Log("count: " + platformList.Count);
+            return false;
         }
     }
 
@@ -699,7 +757,7 @@ public class Gamemanager : MonoBehaviour
 
     private void OnZone2Show()
     {
-        gameStateText.text = "Solve The Maze And Traverse It";
+        gameStateText.text = "Solve The Maze And Traverse It. Do Not Fall.";
     }
 
     private void OnZone2UnShow()
