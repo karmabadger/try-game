@@ -693,7 +693,18 @@ public class Gamemanager : MonoBehaviour
         }
         else
         {
-            return false;
+            bool win = false;
+            // int left = 0;
+            foreach (var plat in platformList)
+            {
+                if (plat == null)
+                {
+                    win = true;
+                }
+            }
+
+            return win;
+            // return false;
         }
     }
 
